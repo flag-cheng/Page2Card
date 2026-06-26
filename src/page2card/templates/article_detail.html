@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}page2card · {{ article.title }}{% endblock %}
+
+{% block content %}
+<section class="page-head">
+  <a class="btn btn-ghost" href="/">← 返回清單</a>
+</section>
+
+<article class="article">
+  <h1 class="article-title">{{ article.title }}</h1>
+  <p class="article-meta">
+    {% if article.category %}<span class="card-cat">{{ article.category }}</span>{% endif %}
+    收藏於 {{ article.created_at }} (UTC)
+  </p>
+  <p class="article-source">
+    來源：<a href="{{ article.url }}" target="_blank"
+            rel="noopener noreferrer nofollow">{{ article.url }}</a>
+  </p>
+
+  {# This card placeholder is where the AI summary card will appear after the
+     Codex issue is implemented. The starter intentionally leaves it empty. #}
+  <div class="summary-slot">
+    <p class="muted">尚未產生摘要卡片。AI 摘要與分享圖卡會在後續的 Codex 任務中完成。</p>
+  </div>
+
+  <h2 class="section-title">擷取的內文</h2>
+  <div class="article-body">{{ article.content }}</div>
+</article>
+{% endblock %}

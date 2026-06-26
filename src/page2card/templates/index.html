@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}page2card · 我的卡片{% endblock %}
+
+{% block content %}
+<section class="capture">
+  <h1>收藏一篇文章</h1>
+  {% if error %}
+  <p class="alert alert-error">{{ error }}</p>
+  {% endif %}
+  <form class="capture-form" method="post" action="/capture">
+    <input type="url" name="url" required
+           value="{{ form.url }}" placeholder="貼上文章網址 https://…">
+    <input type="text" name="category" maxlength="50"
+           value="{{ form.category }}" placeholder="分類／議題（選填）">
+    <button class="btn btn-primary" type="submit">收藏</button>
+  </form>
+  <p class="hint">page2card 會抓下這篇文章的標題與內文，存進你的清單。</p>
+</section>
+
+{% if categories %}
+<nav class="filters">
+  <a class="chip {{ 'chip-active' if not active_category else '' }}" href="/">全部</a>
+  {% for cat in categories %}
+  <a class="chip {{ 'chip-active' if cat == active_category else '' }}"
+     href="/?category={{ cat | urlencode }}">{{ cat }}</a>
+  {% endfor %}
+</nav>
+{% endif %}
+
+{% if articles %}
+<ul class="card-grid">
+  {% for article in articles %}
+  <li class="card">
+    <a class="card-link" href="/articles/{{ article.id }}">
+      <h2 class="card-title">{{ article.title }}</h2>
+      {% if article.category %}
+      <span class="card-cat">{{ article.category }}</span>
+      {% endif %}
+      <p class="card-excerpt">{{ article.excerpt }}</p>
+      <p class="card-meta">{{ article.created_at }} (UTC)</p>
+    </a>
+    <form method="post" action="/articles/{{ article.id }}/delete"
+          onsubmit="return confirm('確定要刪除「{{ article.title }}」嗎？');">
+      <button class="btn btn-small btn-danger" type="submit">刪除</button>
+    </form>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p class="empty">
+  {% if active_category %}
+    這個分類底下還沒有文章。
+  {% else %}
+    還沒有收藏任何文章。貼一個網址，開始建立你的卡片清單。
+  {% endif %}
+</p>
+{% endif %}
+{% endblock %}

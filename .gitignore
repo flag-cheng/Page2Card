@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.ruff_cache/
+
+# page2card data (never commit the user's saved articles or generated cards)
+data/*.db
+data/cards/
+
+# Environment / secrets
+.env
+
+# Local scratch helpers
+_*.py
+
+# OS / editor
+.DS_Store
+Thumbs.db
