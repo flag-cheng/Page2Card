@@ -18,9 +18,24 @@
 body {
   margin: 0;
   font-family: "Segoe UI", system-ui, "Microsoft JhengHei", sans-serif;
-  background: var(--bg);
+  background-color: var(--bg);
   color: var(--text);
   line-height: 1.65;
+}
+
+/* Geometric background decoration behind the whole page: diagonal bands,
+   flowing curves, hairlines and dot fields drawn in an SVG, fixed to the
+   viewport so it stays put while content scrolls. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: url("bg-pattern.svg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .site-header {
