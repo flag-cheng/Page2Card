@@ -48,7 +48,7 @@ def test_empty_html_raises():
 
 def test_published_at_from_meta_tag():
     soup = BeautifulSoup(
-        '<html><head>'
+        "<html><head>"
         '<meta property="article:published_time" content="2026-06-25T08:30:00+08:00">'
         "</head><body><p>x</p></body></html>",
         "html.parser",
@@ -58,7 +58,7 @@ def test_published_at_from_meta_tag():
 
 def test_published_at_converts_utc_to_taiwan():
     soup = BeautifulSoup(
-        '<html><head>'
+        "<html><head>"
         '<meta property="article:published_time" content="2026-06-25T00:30:00Z">'
         "</head><body><p>x</p></body></html>",
         "html.parser",
@@ -93,7 +93,7 @@ def test_published_at_absent_returns_none():
 
 def test_published_at_unparseable_returns_none():
     soup = BeautifulSoup(
-        '<html><head>'
+        "<html><head>"
         '<meta property="article:published_time" content="not a date">'
         "</head><body><p>x</p></body></html>",
         "html.parser",
