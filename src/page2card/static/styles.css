@@ -24,19 +24,31 @@ body {
 }
 
 .site-header {
-  padding: 1.5rem 2rem;
-  background: linear-gradient(120deg, #2e1065, #1a2235);
+  padding: 2.75rem 2rem;
+  background: linear-gradient(120deg, #5b21b6, #4c2a8f);
   border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
 }
 .brand {
-  font-size: 1.7rem;
+  font-size: 2.6rem;
   font-weight: 800;
   color: #f5f3ff;
   text-decoration: none;
   letter-spacing: 0.3px;
+  line-height: 1.1;
 }
 .brand span { color: #a78bfa; }
-.tagline { margin: 0.25rem 0 0; color: #c7c2e0; font-size: 0.95rem; }
+.tagline {
+  margin: 0;
+  padding-left: 1.25rem;
+  border-left: 2px solid rgba(167, 139, 250, 0.5);
+  color: #c7c2e0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
 
 .container { max-width: 1000px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
 
