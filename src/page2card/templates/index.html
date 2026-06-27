@@ -37,7 +37,10 @@
       <span class="card-cat">{{ article.category }}</span>
       {% endif %}
       <p class="card-excerpt">{{ article.excerpt }}</p>
-      <p class="card-meta">{{ article.created_at }}（台灣時間）</p>
+      {% if article.published_at %}
+      <p class="card-meta">發布 {{ article.published_at }}</p>
+      {% endif %}
+      <p class="card-meta">收藏 {{ article.created_at }}</p>
     </a>
     <form method="post" action="/articles/{{ article.id }}/delete"
           onsubmit="return confirm('確定要刪除「{{ article.title }}」嗎？');">

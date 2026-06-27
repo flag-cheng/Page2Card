@@ -12,8 +12,8 @@ TAIPEI_TZ = timezone(timedelta(hours=8), name="Asia/Taipei")
 
 
 def now_iso() -> str:
-    """Return the current Taiwan time as an ISO-8601 string (no microseconds)."""
-    return datetime.now(TAIPEI_TZ).replace(microsecond=0).isoformat()
+    """Return the current Taiwan time as ``YYYY-MM-DD HH:MM:SS`` (no timezone)."""
+    return datetime.now(TAIPEI_TZ).strftime("%Y-%m-%d %H:%M:%S")
 
 
 def _row_to_article(row: sqlite3.Row) -> Article:
@@ -24,6 +24,7 @@ def _row_to_article(row: sqlite3.Row) -> Article:
         content=row["content"],
         category=row["category"],
         created_at=row["created_at"],
+        published_at=row["published_at"],
     )
 
 
@@ -34,15 +35,21 @@ class Repository:
         self.conn = conn
 
     def add_article(
-        self, url: str, title: str, content: str, category: str | None
+        self,
+        url: str,
+        title: str,
+        content: str,
+        category: str | None,
+        published_at: str | None = None,
     ) -> Article:
         created_at = now_iso()
         cursor = self.conn.execute(
             """
-            INSERT INTO articles (url, title, content, category, created_at)
-            VALUES (?, ?, ?, ?, ?)
+            INSERT INTO articles
+                (url, title, content, category, created_at, published_at)
+            VALUES (?, ?, ?, ?, ?, ?)
             """,
-            (url, title, content, category, created_at),
+            (url, title, content, category, created_at, published_at),
         )
         self.conn.commit()
         return self.get_article(cursor.lastrowid)

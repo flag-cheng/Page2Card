@@ -20,6 +20,7 @@ class Article:
     content: str
     category: str | None
     created_at: str
+    published_at: str | None = None
 
     @property
     def excerpt(self) -> str:

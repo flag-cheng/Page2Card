@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import re
+
 from page2card.repository import Repository
 
 
@@ -11,6 +13,24 @@ def test_add_and_get_article(repo: Repository):
     fetched = repo.get_article(article.id)
     assert fetched.title == "標題"
     assert fetched.category == "科技"
+
+
+def test_created_at_format_has_no_timezone_suffix(repo: Repository):
+    article = repo.add_article("https://example.com/a", "標題", "x", None)
+    # "YYYY-MM-DD HH:MM:SS" — a space separator, no "T" and no offset.
+    assert re.fullmatch(r"\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}", article.created_at)
+
+
+def test_published_at_round_trips(repo: Repository):
+    article = repo.add_article(
+        "https://example.com/a", "標題", "x", None, "2026-06-25 08:30:00"
+    )
+    assert repo.get_article(article.id).published_at == "2026-06-25 08:30:00"
+
+
+def test_published_at_defaults_to_none(repo: Repository):
+    article = repo.add_article("https://example.com/a", "標題", "x", None)
+    assert repo.get_article(article.id).published_at is None
 
 
 def test_list_articles_newest_first(repo: Repository):

@@ -89,14 +89,16 @@ async def capture(
     if error is None:
         try:
             html = await fetch_page(clean_url)
-            title, content = extract_content(html)
+            title, content, published_at = extract_content(html)
         except (FetchError, ExtractError) as exc:
             error = str(exc)
 
     if error is None:
         repo = get_repository()
         try:
-            article = repo.add_article(clean_url, title, content, clean_category)
+            article = repo.add_article(
+                clean_url, title, content, clean_category, published_at
+            )
         finally:
             repo.conn.close()
         return RedirectResponse(f"/articles/{article.id}", status_code=303)
