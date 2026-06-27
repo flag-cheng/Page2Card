@@ -12,8 +12,9 @@ data/cards/
 # Environment / secrets
 .env
 
-# Local scratch helpers
-_*.py
+# Local scratch helpers (single-underscore prefix, e.g. _scratch.py).
+# Use a pattern that does NOT swallow dunder files like __init__.py.
+_[!_]*.py
 
 # OS / editor
 .DS_Store
