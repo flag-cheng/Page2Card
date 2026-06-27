@@ -44,7 +44,7 @@ uv run ruff format --check .  # 格式檢查
 
 SQLite 資料檔預設位於 `data/page2card.db`，首次連線時自動建立 `data/` 目錄。
 `.gitignore` 已忽略 `data/*.db`。測試使用暫存資料庫，不會動到正式資料檔。
-時間以 **UTC** 儲存與顯示。
+時間以**台灣時間（UTC+8）**儲存與顯示。
 
 ## 下一步（交給 Codex）
 

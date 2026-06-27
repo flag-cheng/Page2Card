@@ -3,14 +3,17 @@
 from __future__ import annotations
 
 import sqlite3
-from datetime import UTC, datetime
+from datetime import datetime, timedelta, timezone
 
 from .models import Article
 
+# Taiwan time (UTC+8, no daylight saving). Timestamps are stored in this zone.
+TAIPEI_TZ = timezone(timedelta(hours=8), name="Asia/Taipei")
 
-def utcnow_iso() -> str:
-    """Return the current UTC time as an ISO-8601 string (no microseconds)."""
-    return datetime.now(UTC).replace(microsecond=0).isoformat()
+
+def now_iso() -> str:
+    """Return the current Taiwan time as an ISO-8601 string (no microseconds)."""
+    return datetime.now(TAIPEI_TZ).replace(microsecond=0).isoformat()
 
 
 def _row_to_article(row: sqlite3.Row) -> Article:
@@ -33,7 +36,7 @@ class Repository:
     def add_article(
         self, url: str, title: str, content: str, category: str | None
     ) -> Article:
-        created_at = utcnow_iso()
+        created_at = now_iso()
         cursor = self.conn.execute(
             """
             INSERT INTO articles (url, title, content, category, created_at)

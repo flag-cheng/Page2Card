@@ -1,7 +1,7 @@
 """SQLite connection and schema management.
 
 The data directory is created automatically on first use. Timestamps are
-stored as UTC ISO-8601 strings.
+stored as Taiwan-time (UTC+8) ISO-8601 strings.
 """
 
 from __future__ import annotations

@@ -10,7 +10,7 @@
   <h1 class="article-title">{{ article.title }}</h1>
   <p class="article-meta">
     {% if article.category %}<span class="card-cat">{{ article.category }}</span>{% endif %}
-    收藏於 {{ article.created_at }} (UTC)
+    收藏於 {{ article.created_at }}（台灣時間）
   </p>
   <p class="article-source">
     來源：<a href="{{ article.url }}" target="_blank"
