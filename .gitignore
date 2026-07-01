@@ -16,6 +16,9 @@ data/cards/
 # Use a pattern that does NOT swallow dunder files like __init__.py.
 _[!_]*.py
 
+# Local scratch / temp logs (e.g. background uvicorn logs)
+.tmp/
+
 # OS / editor
 .DS_Store
 Thumbs.db
