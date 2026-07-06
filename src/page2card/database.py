@@ -27,6 +27,29 @@ CREATE INDEX IF NOT EXISTS idx_articles_created
 
 CREATE INDEX IF NOT EXISTS idx_articles_category
     ON articles(category);
+
+CREATE TABLE IF NOT EXISTS article_summaries (
+    article_id       INTEGER PRIMARY KEY,
+    quote            TEXT NOT NULL,
+    overview         TEXT NOT NULL,
+    key_points_json  TEXT NOT NULL,
+    input_truncated  INTEGER NOT NULL DEFAULT 0,
+    created_at       TEXT NOT NULL,
+    FOREIGN KEY(article_id) REFERENCES articles(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS card_images (
+    article_id   INTEGER NOT NULL,
+    position     INTEGER NOT NULL,
+    role         TEXT NOT NULL,
+    style_code   TEXT NOT NULL,
+    size_code    TEXT NOT NULL,
+    path         TEXT NOT NULL,
+    mime_type    TEXT NOT NULL,
+    created_at   TEXT NOT NULL,
+    PRIMARY KEY(article_id, position),
+    FOREIGN KEY(article_id) REFERENCES articles(id) ON DELETE CASCADE
+);
 """
 
 
@@ -48,5 +71,6 @@ def connect(db_path: Path | None = None) -> sqlite3.Connection:
     conn = sqlite3.connect(path)
     conn.row_factory = sqlite3.Row
     conn.executescript(SCHEMA)
+    conn.execute("PRAGMA foreign_keys = ON")
     _migrate(conn)
     return conn
