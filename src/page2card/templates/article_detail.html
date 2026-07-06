@@ -20,13 +20,65 @@
             rel="noopener noreferrer nofollow">{{ article.url }}</a>
   </p>
 
-  {# This card placeholder is where the AI summary card will appear after the
-     Codex issue is implemented. The starter intentionally leaves it empty. #}
   <div class="summary-slot">
-    <p class="muted">尚未產生摘要卡片。AI 摘要與分享圖卡會在後續的 Codex 任務中完成。</p>
+    <h2 class="section-title">AI 摘要與分享圖卡</h2>
+    {% if error %}<p class="alert error">{{ error }}</p>{% endif %}
+    {% if message %}<p class="alert success">{{ message }}</p>{% endif %}
+
+    {% if article.summary %}
+      <section class="summary-text">
+        <h3>「{{ article.summary.quote }}」</h3>
+        <p>{{ article.summary.overview }}</p>
+        <ul>{% for point in article.summary.key_points %}<li>{{ point }}</li>{% endfor %}</ul>
+        {% if article.summary.input_truncated %}<p class="muted">摘要只涵蓋文章前段內容。</p>{% endif %}
+      </section>
+      <p class="muted">提醒：AI 文生圖對中文字的呈現不穩定，圖中文字僅供視覺呈現，正式重點請以本頁文字摘要為準。產生後可在每張圖卡下方按「下載圖片」，或直接開啟 /articles/{文章 ID}/card-{張號}.png。</p>
+
+      {% if article.card_images %}
+        <div class="card-gallery" data-lightbox>
+          {% for card in article.card_images %}
+            <figure class="generated-card">
+              <button class="card-preview" type="button" data-index="{{ loop.index0 }}">
+                <img src="/articles/{{ article.id }}/card-{{ card.position }}.png" alt="{{ card.role }} 圖卡">
+              </button>
+              <figcaption>{{ card.position }}. {{ card.role }} · {{ card.style_code }} · {{ card.size_code }}<br>下載網址：<code>/articles/{{ article.id }}/card-{{ card.position }}.png</code></figcaption>
+              <a class="btn" href="/articles/{{ article.id }}/card-{{ card.position }}.png" download>下載圖片</a>
+            </figure>
+          {% endfor %}
+        </div>
+      {% else %}
+        <form class="ai-form" action="/articles/{{ article.id }}/card" method="post">
+          <label>風格
+            <select name="style">
+              {% for style in card_styles %}<option value="{{ style.code }}" {% if style.code == default_style %}selected{% endif %}>{{ style.name }} — {{ style.description }}</option>{% endfor %}
+            </select>
+          </label>
+          <label>尺寸
+            <select name="size">
+              {% for size in card_sizes %}<option value="{{ size.code }}" {% if size.code == default_size %}selected{% endif %}>{{ size.name }}（{{ size.api_size }}）</option>{% endfor %}
+            </select>
+          </label>
+          <label>張數
+            <select name="count">{% for n in range(1, max_cards + 1) %}<option value="{{ n }}">{{ n }}</option>{% endfor %}</select>
+          </label>
+          {% if not ai_key_available %}<label>OpenAI API Key（只用於本次請求，不會保存）<input type="password" name="openai_api_key" autocomplete="off"></label>{% endif %}
+          <button class="btn" type="submit">產生圖卡</button>
+        </form>
+      {% endif %}
+    {% else %}
+      <p class="muted">尚未產生摘要卡片。</p>
+      <form class="ai-form" action="/articles/{{ article.id }}/summarize" method="post">
+        {% if not ai_key_available %}<p>請貼入 OpenAI API Key 以產生摘要。</p><label>OpenAI API Key（只用於本次請求，不會保存）<input type="password" name="openai_api_key" autocomplete="off"></label>{% endif %}
+        <button class="btn" type="submit">產生 AI 摘要</button>
+      </form>
+    {% endif %}
   </div>
 
   <h2 class="section-title">擷取的內文</h2>
   <div class="article-body">{{ article.content }}</div>
 </article>
+<div class="lightbox" hidden>
+  <button class="lightbox-close" type="button">×</button><button class="lightbox-prev" type="button">‹</button><img alt="放大圖卡"><button class="lightbox-next" type="button">›</button>
+</div>
+<script src="/static/cards.js"></script>
 {% endblock %}

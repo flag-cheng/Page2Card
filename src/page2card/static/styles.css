@@ -205,3 +205,21 @@ body::before {
   font-size: 0.85rem;
   border-top: 1px solid var(--border);
 }
+.summary-slot { border: 1px solid #d9e2ec; border-radius: 18px; padding: 1.25rem; margin: 1.5rem 0; background: #fbfdff; }
+.summary-text h3 { font-size: 1.35rem; margin-bottom: .5rem; }
+.ai-form { display: grid; gap: .85rem; margin-top: 1rem; }
+.ai-form label { display: grid; gap: .35rem; font-weight: 700; }
+.ai-form select, .ai-form input { border: 1px solid #cbd5e1; border-radius: 10px; padding: .6rem; }
+.alert { padding: .75rem 1rem; border-radius: 12px; }
+.alert.error { background: #fff1f2; color: #9f1239; }
+.alert.success { background: #ecfdf5; color: #047857; }
+.card-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+.generated-card img { width: 100%; border-radius: 16px; box-shadow: 0 14px 30px rgba(15,23,42,.14); }
+.card-preview { border: 0; background: transparent; padding: 0; cursor: zoom-in; }
+.lightbox { position: fixed; inset: 0; z-index: 20; background: rgba(2,6,23,.86); display: grid; place-items: center; }
+.lightbox[hidden] { display: none; }
+.lightbox img { max-width: 86vw; max-height: 86vh; border-radius: 12px; }
+.lightbox button { position: fixed; border: 0; color: white; background: rgba(255,255,255,.16); border-radius: 999px; width: 3rem; height: 3rem; font-size: 2rem; }
+.lightbox-close { top: 1rem; right: 1rem; }
+.lightbox-prev { left: 1rem; }
+.lightbox-next { right: 1rem; }
