@@ -2,17 +2,34 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+
+
+@dataclass(slots=True)
+class ArticleSummary:
+    article_id: int
+    quote: str
+    overview: str
+    key_points: list[str] = field(default_factory=list)
+    input_truncated: bool = False
+    created_at: str | None = None
+
+
+@dataclass(slots=True)
+class CardImage:
+    article_id: int
+    position: int
+    role: str
+    style_code: str
+    size_code: str
+    path: str
+    mime_type: str = "image/png"
+    created_at: str | None = None
 
 
 @dataclass(slots=True)
 class Article:
-    """A captured web article.
-
-    The starter stores the page title, normalized body text, an optional
-    category/topic label, and timestamps. AI summaries and share cards are NOT
-    part of the starter — they are added later via the Codex issue.
-    """
+    """A captured web article."""
 
     id: int
     url: str
@@ -21,6 +38,8 @@ class Article:
     category: str | None
     created_at: str
     published_at: str | None = None
+    summary: ArticleSummary | None = None
+    card_images: list[CardImage] = field(default_factory=list)
 
     @property
     def excerpt(self) -> str:

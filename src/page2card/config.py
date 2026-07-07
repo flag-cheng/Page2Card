@@ -40,3 +40,18 @@ USER_AGENT = os.getenv(
         f"page2card/{__import__('page2card').__version__}"
     ),
 )
+
+
+# OpenAI settings for summaries and generated card images.
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-5.5")
+OPENAI_IMAGE_MODEL = os.getenv("OPENAI_IMAGE_MODEL", "gpt-image-1")
+MAX_CARDS = int(os.getenv("PAGE2CARD_MAX_CARDS", "4"))
+MIN_SUMMARY_CHARS = int(os.getenv("PAGE2CARD_MIN_SUMMARY_CHARS", "80"))
+CARD_DIR = Path(os.getenv("PAGE2CARD_CARD_DIR", str(PROJECT_ROOT / "data" / "cards")))
+
+
+def card_path(article_id: int, position: int) -> Path:
+    """Return the safe server-controlled path for a generated card image."""
+    CARD_DIR.mkdir(parents=True, exist_ok=True)
+    return CARD_DIR / f"article-{article_id}-card-{position}.png"
